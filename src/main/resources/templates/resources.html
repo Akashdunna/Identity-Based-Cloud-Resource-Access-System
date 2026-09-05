@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cloud Resources</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            height: 65px;
+            background: #1e3a8a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+        }
+
+        .navbar h2 {
+            font-size: 21px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: #374151;
+            padding: 9px 18px;
+            border-radius: 6px;
+        }
+
+        .container {
+            padding: 35px;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #6b7280;
+        }
+
+        .resources {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .resource-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .resource-icon {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .resource-card h2 {
+            margin-bottom: 10px;
+        }
+
+        .resource-card p {
+            color: #6b7280;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .details {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            background: #e5e7eb;
+        }
+
+        .high {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .active {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .request-btn {
+            width: 100%;
+            padding: 11px;
+            border: none;
+            border-radius: 6px;
+            background: #2563eb;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .request-btn:hover {
+            background: #1d4ed8;
+        }
+
+        @media (max-width: 800px) {
+            .resources {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <h2>🔐 Zero Trust Access System</h2>
+
+    <a href="/dashboard" class="back-btn">
+        ← Dashboard
+    </a>
+
+</div>
+
+<div class="container">
+
+    <div class="heading">
+        <h1>Cloud Resources</h1>
+        <p>
+            Access to every resource is verified using Zero Trust policies.
+        </p>
+    </div>
+
+    <div class="resources">
+
+        <div class="resource-card" th:each="resource : ${resources}">
+    
+            <div class="resource-icon">
+    
+                <span th:if="${resource.resourceType == 'DASHBOARD'}">📊</span>
+                <span th:if="${resource.resourceType == 'DOCUMENT'}">📄</span>
+                <span th:if="${resource.resourceType == 'DATABASE'}">👥</span>
+                <span th:if="${resource.resourceType == 'LOGS'}">🛡️</span>
+                <span th:if="${resource.resourceType == 'CONFIGURATION'}">⚙️</span>
+    
+            </div>
+    
+            <h2 th:text="${resource.name}">
+                Resource Name
+            </h2>
+    
+            <p th:text="${resource.description}">
+                Resource description
+            </p>
+    
+            <div class="details">
+    
+                <span class="badge"
+                      th:classappend="${resource.sensitivity == 'HIGH' or resource.sensitivity == 'CRITICAL'} ? ' high' : ' medium'"
+                      th:text="${resource.sensitivity}">
+                    MEDIUM
+                </span>
+    
+                <span class="badge active"
+                      th:text="${resource.status}">
+                    ACTIVE
+                </span>
+    
+            </div>
+    
+            <button class="request-btn"
+        type="button"
+        th:attr="data-resource-id=${resource.id},data-resource-name=${resource.name}"
+        onclick="requestAccess(this)">
+    Request Access
+</button>
+    
+        </div>
+    
+    </div>
+
+</div>
+
+<script>
+
+    function requestAccess(button) {
+
+        const resourceId = button.dataset.resourceId;
+        const resourceName = button.dataset.resourceName;
+
+        fetch("/api/access/check?resourceId=" + resourceId)
+            .then(response => response.text())
+            .then(result => {
+
+                if (result.startsWith("ALLOW")) {
+
+                    alert(
+                        "Access Granted!\n\n" +
+                        "Resource: " + resourceName +
+                        "\n\n" +
+                        result
+                    );
+
+                    // Open the actual resource
+                    if (resourceId == "1") {
+                        window.location.href = "/sales-dashboard";
+                    }
+
+                } else {
+
+                    alert(
+                        "Access Denied!\n\n" +
+                        "Resource: " + resourceName +
+                        "\n\n" +
+                        result
+                    );
+                }
+
+            })
+            .catch(error => {
+
+                alert(
+                    "Error while checking access.\n\n" +
+                    "Please try again."
+                );
+
+                console.error(error);
+            });
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Device Management</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            height: 65px;
+            background: #111827;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+        }
+
+        .navbar h2 {
+            font-size: 21px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: #374151;
+            padding: 9px 18px;
+            border-radius: 6px;
+        }
+
+        .container {
+            padding: 35px;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #6b7280;
+        }
+
+        .table-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f9fafb;
+            text-align: left;
+            padding: 15px;
+            font-size: 14px;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .secure {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .registered {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .not-registered {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .user-name {
+            font-weight: bold;
+        }
+
+        @media (max-width: 800px) {
+
+            .container {
+                padding: 20px;
+            }
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .navbar h2 {
+                font-size: 17px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <h2>🛡️ Zero Trust Device Management</h2>
+
+    <a href="/admin" class="back-btn">
+        ← Admin Dashboard
+    </a>
+
+</div>
+
+
+<div class="container">
+
+    <div class="heading">
+
+        <h1>Registered Devices</h1>
+
+        <p>
+            Monitor device registration and security status for Zero Trust verification.
+        </p>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>User</th>
+                    <th>Device</th>
+                    <th>Type</th>
+                    <th>Operating System</th>
+                    <th>Registered</th>
+                    <th>Security Status</th>
+                    <th>Last Seen</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr th:each="device : ${devices}">
+
+                    <td class="user-name"
+                        th:text="${device.user.name}">
+                        User
+                    </td>
+
+                    <td th:text="${device.deviceName}">
+                        Device
+                    </td>
+
+                    <td th:text="${device.deviceType}">
+                        LAPTOP
+                    </td>
+
+                    <td th:text="${device.operatingSystem}">
+                        Windows 11
+                    </td>
+
+                    <td>
+
+                        <span th:if="${device.registered}"
+                              class="badge registered">
+                            ✓ REGISTERED
+                        </span>
+
+                        <span th:unless="${device.registered}"
+                              class="badge not-registered">
+                            ✕ NOT REGISTERED
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <span th:if="${device.securityStatus == 'SECURE'}"
+                              class="badge secure">
+                            🟢 SECURE
+                        </span>
+
+                        <span th:unless="${device.securityStatus == 'SECURE'}"
+                              class="badge not-registered"
+                              th:text="${device.securityStatus}">
+                            INSECURE
+                        </span>
+
+                    </td>
+
+                    <td th:text="${#temporals.format(device.lastSeen, 'dd-MM-yyyy HH:mm')}">
+                        Time
+                    </td>
+
+                    <td>
+
+                        <button
+                            type="button"
+                            class="status-btn"
+                            th:attr="data-device-id=${device.id},data-current-status=${device.securityStatus}"
+                            onclick="toggleSecurity(this)">
+                    
+                            Change Status
+                    
+                        </button>
+                    
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+    function toggleSecurity(button) {
+    
+        const deviceId = button.dataset.deviceId;
+        const currentStatus = button.dataset.currentStatus;
+    
+        const newStatus =
+            currentStatus === "SECURE"
+                ? "INSECURE"
+                : "SECURE";
+    
+        fetch("/api/devices/" + deviceId + "/security?status=" + newStatus, {
+            method: "PUT"
+        })
+        .then(response => response.json())
+        .then(device => {
+    
+            alert(
+                "Device: " + device.deviceName +
+                "\nNew Security Status: " + device.securityStatus
+            );
+    
+            window.location.reload();
+    
+        })
+        .catch(error => {
+    
+            alert("Failed to update device status.");
+            console.error(error);
+    
+        });
+    }
+    
+    </script>
+
+</body>
+</html>

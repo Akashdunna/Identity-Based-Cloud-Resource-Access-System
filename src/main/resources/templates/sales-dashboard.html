@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sales Analytics Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .navbar {
+            height: 65px;
+            background: #1e3a8a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+        }
+
+        .navbar h2 {
+            font-size: 21px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: #374151;
+            padding: 9px 18px;
+            border-radius: 6px;
+        }
+
+        .container {
+            padding: 35px;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #6b7280;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 {
+            color: #6b7280;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .chart {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .chart h2 {
+            margin-bottom: 20px;
+        }
+
+        .bar {
+            margin-bottom: 18px;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .bar-bg {
+            height: 18px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: #2563eb;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 800px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <h2>🔐 Zero Trust Access System</h2>
+
+    <a href="/resources" class="back-btn">
+        ← Resources
+    </a>
+
+</div>
+
+<div class="container">
+
+    <div class="heading">
+
+        <h1>📊 Sales Analytics Dashboard</h1>
+
+        <p>
+            Confidential company sales performance information.
+        </p>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Sales</h3>
+            <div class="number">$125,450</div>
+        </div>
+
+        <div class="card">
+            <h3>Total Orders</h3>
+            <div class="number">1,248</div>
+        </div>
+
+        <div class="card">
+            <h3>Active Customers</h3>
+            <div class="number">856</div>
+        </div>
+
+    </div>
+
+    <div class="chart">
+
+        <h2>Monthly Sales</h2>
+
+        <div class="bar">
+            <div class="bar-label">
+                <span>January</span>
+                <span>$18,000</span>
+            </div>
+
+            <div class="bar-bg">
+                <div class="bar-fill" style="width: 45%;"></div>
+            </div>
+        </div>
+
+        <div class="bar">
+            <div class="bar-label">
+                <span>February</span>
+                <span>$24,000</span>
+            </div>
+
+            <div class="bar-bg">
+                <div class="bar-fill" style="width: 60%;"></div>
+            </div>
+        </div>
+
+        <div class="bar">
+            <div class="bar-label">
+                <span>March</span>
+                <span>$32,000</span>
+            </div>
+
+            <div class="bar-bg">
+                <div class="bar-fill" style="width: 80%;"></div>
+            </div>
+        </div>
+
+        <div class="bar">
+            <div class="bar-label">
+                <span>April</span>
+                <span>$41,450</span>
+            </div>
+
+            <div class="bar-bg">
+                <div class="bar-fill" style="width: 95%;"></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
