@@ -2,49 +2,156 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Device Management</title>
+    <title>Device Security Management</title>
 
     <style>
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
         }
 
         body {
-            background: #f4f7fb;
-            color: #1f2937;
+            background: #f1f5f9;
+            color: #0f172a;
         }
 
-        .navbar {
-            height: 65px;
-            background: #111827;
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 235px;
+            height: 100vh;
+            background: #08111f;
             color: white;
+            padding: 24px 15px;
+        }
+
+        .logo {
             display: flex;
             align-items: center;
+            gap: 11px;
+            padding: 0 10px 25px;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: #2563eb;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .logo h2 {
+            font-size: 15px;
+        }
+
+        .logo p {
+            color: #64748b;
+            font-size: 9px;
+            margin-top: 3px;
+            letter-spacing: .5px;
+        }
+
+        .nav-title {
+            color: #64748b;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 24px 12px 9px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 12px;
+            margin-bottom: 4px;
+            border-radius: 7px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #172554;
+            color: #dbeafe;
+        }
+
+        .nav-icon {
+            width: 19px;
+            text-align: center;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 235px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 68px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 0 35px;
         }
 
-        .navbar h2 {
-            font-size: 21px;
+        .breadcrumb {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .breadcrumb strong {
+            color: #334155;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .security-badge {
+            padding: 7px 11px;
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #dcfce7;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
         }
 
         .back-btn {
             text-decoration: none;
-            color: white;
-            background: #374151;
-            padding: 9px 18px;
+            padding: 8px 13px;
             border-radius: 6px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            font-size: 10px;
         }
 
-        .container {
-            padding: 35px;
+        /* ================= CONTENT ================= */
+
+        .content {
+            padding: 32px 35px 45px;
         }
 
         .heading {
@@ -53,47 +160,166 @@
 
         .heading h1 {
             font-size: 28px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .heading p {
-            color: #6b7280;
+            color: #64748b;
+            font-size: 12px;
         }
+
+        /* ================= SECURITY BANNER ================= */
+
+        .security-banner {
+            background: linear-gradient(110deg, #0b1730, #102a56);
+            color: white;
+            border-radius: 12px;
+            padding: 21px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            box-shadow: 0 7px 20px rgba(15, 23, 42, .1);
+        }
+
+        .banner-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .banner-icon {
+            width: 43px;
+            height: 43px;
+            background: rgba(59, 130, 246, .17);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .security-banner h3 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .security-banner p {
+            color: #bfdbfe;
+            font-size: 10px;
+        }
+
+        .verification-flow {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 9px;
+        }
+
+        .verification-flow span {
+            padding: 6px 8px;
+            background: rgba(255,255,255,.07);
+            border-radius: 5px;
+        }
+
+        .verification-flow b {
+            color: #60a5fa;
+        }
+
+        /* ================= TABLE ================= */
 
         .table-container {
             background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
             overflow-x: auto;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, .04);
+        }
+
+        .table-header {
+            padding: 20px 22px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h2 {
+            font-size: 16px;
+        }
+
+        .table-header p {
+            color: #94a3b8;
+            font-size: 9px;
+            margin-top: 4px;
+        }
+
+        .protected-label {
+            padding: 7px 10px;
+            border-radius: 20px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 9px;
+            font-weight: 700;
         }
 
         table {
             width: 100%;
+            min-width: 900px;
             border-collapse: collapse;
         }
 
         th {
-            background: #f9fafb;
+            background: #f8fafc;
             text-align: left;
-            padding: 15px;
-            font-size: 14px;
-            color: #374151;
-            border-bottom: 2px solid #e5e7eb;
+            padding: 13px 15px;
+            font-size: 9px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            border-bottom: 1px solid #e2e8f0;
         }
 
         td {
-            padding: 15px;
-            border-bottom: 1px solid #e5e7eb;
-            font-size: 14px;
+            padding: 14px 15px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 10px;
+            color: #475569;
         }
 
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .user-name {
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .device-name {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .os {
+            color: #64748b;
+        }
+
+        /* ================= BADGES ================= */
+
         .badge {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 5px;
-            font-size: 12px;
-            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 9px;
+            border-radius: 20px;
+            font-size: 8px;
+            font-weight: 700;
+            white-space: nowrap;
         }
 
         .secure {
@@ -111,188 +337,547 @@
             color: #dc2626;
         }
 
-        .user-name {
-            font-weight: bold;
+        .last-seen {
+            font-family: monospace;
+            font-size: 9px;
+            color: #64748b;
         }
 
-        @media (max-width: 800px) {
+        /* ================= ACTION BUTTON ================= */
 
-            .container {
-                padding: 20px;
+        .status-btn {
+            border: 1px solid #dbeafe;
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 9px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+            white-space: nowrap;
+        }
+
+        .status-btn:hover {
+            background: #dbeafe;
+            border-color: #bfdbfe;
+        }
+
+        .status-btn:active {
+            transform: scale(.97);
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 9px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 68px;
+                padding: 18px 8px;
             }
 
-            .navbar {
-                padding: 0 20px;
+            .logo {
+                justify-content: center;
+                padding-left: 0;
+                padding-right: 0;
             }
 
-            .navbar h2 {
-                font-size: 17px;
+            .logo-text,
+            .nav-title,
+            .nav-item span:not(.nav-icon) {
+                display: none;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 11px;
+            }
+
+            .main {
+                margin-left: 68px;
+            }
+
+            .content {
+                padding: 25px 18px;
+            }
+
+            .verification-flow {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .breadcrumb {
+                display: none;
+            }
+
+            .security-badge {
+                display: none;
+            }
+
+            .heading h1 {
+                font-size: 23px;
+            }
+
+            .security-banner {
+                padding: 18px;
             }
 
         }
 
     </style>
+
 </head>
+
 
 <body>
 
-<div class="navbar">
 
-    <h2>🛡️ Zero Trust Device Management</h2>
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
 
-    <a href="/admin" class="back-btn">
-        ← Admin Dashboard
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            🛡️
+        </div>
+
+        <div class="logo-text">
+
+            <h2>ZERO TRUST</h2>
+
+            <p>SECURITY SYSTEM</p>
+
+        </div>
+
+    </div>
+
+
+    <div class="nav-title">
+        Navigation
+    </div>
+
+
+    <a href="/dashboard" class="nav-item">
+
+        <span class="nav-icon">⌂</span>
+
+        <span>Dashboard</span>
+
     </a>
 
-</div>
+
+    <a href="/resources" class="nav-item">
+
+        <span class="nav-icon">☁</span>
+
+        <span>Cloud Resources</span>
+
+    </a>
 
 
-<div class="container">
+    <a href="/access-history" class="nav-item">
 
-    <div class="heading">
+        <span class="nav-icon">◷</span>
 
-        <h1>Registered Devices</h1>
+        <span>Access History</span>
 
-        <p>
-            Monitor device registration and security status for Zero Trust verification.
-        </p>
+    </a>
 
+
+    <div class="nav-title">
+        Security
     </div>
 
 
-    <div class="table-container">
+    <a href="/devices" class="nav-item active">
 
-        <table>
+        <span class="nav-icon">▣</span>
 
-            <thead>
+        <span>Devices</span>
 
-                <tr>
-                    <th>User</th>
-                    <th>Device</th>
-                    <th>Type</th>
-                    <th>Operating System</th>
-                    <th>Registered</th>
-                    <th>Security Status</th>
-                    <th>Last Seen</th>
-                    <th>Action</th>
-                </tr>
+    </a>
 
-            </thead>
+</aside>
 
 
-            <tbody>
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
 
-                <tr th:each="device : ${devices}">
+<main class="main">
 
-                    <td class="user-name"
-                        th:text="${device.user.name}">
-                        User
-                    </td>
 
-                    <td th:text="${device.deviceName}">
-                        Device
-                    </td>
+    <!-- TOP BAR -->
 
-                    <td th:text="${device.deviceType}">
-                        LAPTOP
-                    </td>
+    <header class="topbar">
 
-                    <td th:text="${device.operatingSystem}">
-                        Windows 11
-                    </td>
+        <div class="breadcrumb">
 
-                    <td>
+            Zero Trust System
+            &nbsp;/&nbsp;
+            <strong>Device Security</strong>
 
-                        <span th:if="${device.registered}"
-                              class="badge registered">
-                            ✓ REGISTERED
-                        </span>
+        </div>
 
-                        <span th:unless="${device.registered}"
-                              class="badge not-registered">
-                            ✕ NOT REGISTERED
-                        </span>
 
-                    </td>
+        <div class="top-actions">
 
-                    <td>
+            <span class="security-badge">
+                ● ZERO TRUST ACTIVE
+            </span>
 
-                        <span th:if="${device.securityStatus == 'SECURE'}"
-                              class="badge secure">
-                            🟢 SECURE
-                        </span>
+            <a href="/admin" class="back-btn">
+                ← Admin Dashboard
+            </a>
 
-                        <span th:unless="${device.securityStatus == 'SECURE'}"
-                              class="badge not-registered"
-                              th:text="${device.securityStatus}">
-                            INSECURE
-                        </span>
+        </div>
 
-                    </td>
+    </header>
 
-                    <td th:text="${#temporals.format(device.lastSeen, 'dd-MM-yyyy HH:mm')}">
-                        Time
-                    </td>
 
-                    <td>
+    <div class="content">
 
-                        <button
-                            type="button"
-                            class="status-btn"
-                            th:attr="data-device-id=${device.id},data-current-status=${device.securityStatus}"
-                            onclick="toggleSecurity(this)">
-                    
-                            Change Status
-                    
-                        </button>
-                    
-                    </td>
 
-                </tr>
+        <!-- HEADING -->
 
-            </tbody>
+        <div class="heading">
 
-        </table>
+            <h1>
+                Device Security Management
+            </h1>
+
+            <p>
+                Monitor registered devices and verify their security status before granting resource access.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             SECURITY BANNER
+        ================================================== -->
+
+        <div class="security-banner">
+
+            <div class="banner-left">
+
+                <div class="banner-icon">
+                    💻
+                </div>
+
+                <div>
+
+                    <h3>
+                        Device Trust Verification
+                    </h3>
+
+                    <p>
+                        Only registered and secure devices can satisfy the Zero Trust access policy.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="verification-flow">
+
+                <span>USER</span>
+
+                <b>→</b>
+
+                <span>REGISTERED</span>
+
+                <b>→</b>
+
+                <span>SECURE</span>
+
+                <b>→</b>
+
+                <span>ACCESS</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             DEVICE TABLE
+        ================================================== -->
+
+        <div class="table-container">
+
+
+            <div class="table-header">
+
+                <div>
+
+                    <h2>
+                        Registered Devices
+                    </h2>
+
+                    <p>
+                        Device identity and security verification status
+                    </p>
+
+                </div>
+
+
+                <div class="protected-label">
+                    🔒 DEVICE MONITORING
+                </div>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>User</th>
+
+                        <th>Device</th>
+
+                        <th>Type</th>
+
+                        <th>Operating System</th>
+
+                        <th>Registration</th>
+
+                        <th>Security Status</th>
+
+                        <th>Last Seen</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr th:each="device : ${devices}">
+
+
+                        <!-- USER -->
+
+                        <td class="user-name"
+                            th:text="${device.user.name}">
+                            User
+                        </td>
+
+
+                        <!-- DEVICE -->
+
+                        <td class="device-name"
+                            th:text="${device.deviceName}">
+                            Device
+                        </td>
+
+
+                        <!-- TYPE -->
+
+                        <td th:text="${device.deviceType}">
+                            LAPTOP
+                        </td>
+
+
+                        <!-- OS -->
+
+                        <td class="os"
+                            th:text="${device.operatingSystem}">
+                            Windows 11
+                        </td>
+
+
+                        <!-- REGISTRATION -->
+
+                        <td>
+
+                            <span
+                                th:if="${device.registered}"
+                                class="badge registered">
+
+                                ✓ REGISTERED
+
+                            </span>
+
+
+                            <span
+                                th:unless="${device.registered}"
+                                class="badge not-registered">
+
+                                ✕ NOT REGISTERED
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- SECURITY -->
+
+                        <td>
+
+                            <span
+                                th:if="${device.securityStatus == 'SECURE'}"
+                                class="badge secure">
+
+                                🟢 SECURE
+
+                            </span>
+
+
+                            <span
+                                th:unless="${device.securityStatus == 'SECURE'}"
+                                class="badge not-registered"
+                                th:text="${device.securityStatus}">
+
+                                INSECURE
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- LAST SEEN -->
+
+                        <td
+                            class="last-seen"
+                            th:text="${#temporals.format(device.lastSeen, 'dd-MM-yyyy HH:mm')}">
+
+                            Time
+
+                        </td>
+
+
+                        <!-- ACTION -->
+
+                        <td>
+
+                            <button
+                                type="button"
+                                class="status-btn"
+                                th:attr="data-device-id=${device.id},data-current-status=${device.securityStatus}"
+                                onclick="toggleSecurity(this)">
+
+                                Change Status
+
+                            </button>
+
+                        </td>
+
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+
+        </div>
+
+
+        <div class="footer">
+
+            Identity-Based Cloud Resource Access System
+            &nbsp;•&nbsp;
+            Device status is evaluated before resource access
+
+        </div>
+
 
     </div>
 
-</div>
+</main>
+
+
+<!-- =====================================================
+     DEVICE SECURITY JAVASCRIPT
+===================================================== -->
 
 <script>
 
     function toggleSecurity(button) {
-    
-        const deviceId = button.dataset.deviceId;
-        const currentStatus = button.dataset.currentStatus;
-    
+
+        const deviceId =
+            button.dataset.deviceId;
+
+        const currentStatus =
+            button.dataset.currentStatus;
+
+
         const newStatus =
             currentStatus === "SECURE"
                 ? "INSECURE"
                 : "SECURE";
-    
-        fetch("/api/devices/" + deviceId + "/security?status=" + newStatus, {
-            method: "PUT"
-        })
+
+
+        fetch(
+            "/api/devices/" +
+            deviceId +
+            "/security?status=" +
+            newStatus,
+            {
+                method: "PUT"
+            }
+        )
+
         .then(response => response.json())
+
         .then(device => {
-    
+
             alert(
-                "Device: " + device.deviceName +
-                "\nNew Security Status: " + device.securityStatus
+
+                "Device: " +
+                device.deviceName +
+
+                "\nNew Security Status: " +
+                device.securityStatus
+
             );
-    
+
+
             window.location.reload();
-    
+
         })
+
         .catch(error => {
-    
-            alert("Failed to update device status.");
+
+            alert(
+                "Failed to update device status."
+            );
+
             console.error(error);
-    
+
         });
+
     }
-    
-    </script>
+
+</script>
+
 
 </body>
+
 </html>

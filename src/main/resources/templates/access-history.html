@@ -1,48 +1,157 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Access History</title>
+    <title>Access History | Zero Trust</title>
 
     <style>
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
         }
 
         body {
-            background: #f4f7fb;
-            color: #1f2937;
+            background: #f1f5f9;
+            color: #0f172a;
         }
 
-        .navbar {
-            height: 65px;
-            background: #1e3a8a;
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 235px;
+            height: 100vh;
+            background: #08111f;
             color: white;
+            padding: 24px 15px;
+        }
+
+        .logo {
             display: flex;
             align-items: center;
+            gap: 11px;
+            padding: 0 10px 25px;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: #2563eb;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .logo h2 {
+            font-size: 15px;
+        }
+
+        .logo p {
+            color: #64748b;
+            font-size: 9px;
+            margin-top: 3px;
+            letter-spacing: .5px;
+        }
+
+        .nav-title {
+            color: #64748b;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 24px 12px 9px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 12px;
+            margin-bottom: 4px;
+            border-radius: 7px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #172554;
+            color: #dbeafe;
+        }
+
+        .nav-icon {
+            width: 19px;
+            text-align: center;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 235px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 68px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 0 35px;
         }
 
-        .navbar h2 {
-            font-size: 21px;
+        .breadcrumb {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .breadcrumb strong {
+            color: #334155;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .security-badge {
+            padding: 7px 11px;
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #dcfce7;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
         }
 
         .back-btn {
             text-decoration: none;
-            color: white;
-            background: #374151;
-            padding: 9px 18px;
+            padding: 8px 13px;
             border-radius: 6px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            font-size: 10px;
         }
 
-        .container {
-            padding: 35px;
+        /* ================= CONTENT ================= */
+
+        .content {
+            padding: 32px 35px 45px;
         }
 
         .heading {
@@ -51,168 +160,665 @@
 
         .heading h1 {
             font-size: 28px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .heading p {
-            color: #6b7280;
+            color: #64748b;
+            font-size: 12px;
         }
+
+        /* ================= SECURITY BANNER ================= */
+
+        .security-banner {
+            background: linear-gradient(110deg, #0b1730, #102a56);
+            color: white;
+            border-radius: 12px;
+            padding: 21px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            box-shadow: 0 7px 20px rgba(15, 23, 42, .1);
+        }
+
+        .banner-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .banner-icon {
+            width: 43px;
+            height: 43px;
+            background: rgba(59, 130, 246, .17);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .security-banner h3 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .security-banner p {
+            color: #bfdbfe;
+            font-size: 10px;
+        }
+
+        .audit-flow {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 9px;
+        }
+
+        .audit-flow span {
+            padding: 6px 8px;
+            background: rgba(255,255,255,.07);
+            border-radius: 5px;
+        }
+
+        .audit-flow b {
+            color: #60a5fa;
+        }
+
+        /* ================= LOG HEADER ================= */
+
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .log-header h2 {
+            font-size: 17px;
+        }
+
+        .audit-label {
+            padding: 7px 11px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            color: #475569;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        /* ================= TABLE ================= */
 
         .table-container {
             background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
             overflow-x: auto;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, .04);
         }
 
         table {
             width: 100%;
+            min-width: 1000px;
             border-collapse: collapse;
         }
 
-        th,
-        td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
         th {
-            background: #f9fafb;
-            color: #374151;
+            background: #f8fafc;
+            text-align: left;
+            padding: 13px 15px;
+            font-size: 9px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            border-bottom: 1px solid #e2e8f0;
         }
 
         td {
-            color: #4b5563;
+            padding: 14px 15px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 10px;
+            color: #475569;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ================= TEXT ================= */
+
+        .user-name {
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .resource-name {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .device-name {
+            color: #64748b;
+        }
+
+        .reason {
+            max-width: 250px;
+            line-height: 1.5;
+        }
+
+        .ip {
+            font-family: monospace;
+            font-size: 9px;
+            color: #64748b;
+        }
+
+        .timestamp {
+            font-family: monospace;
+            font-size: 9px;
+            color: #64748b;
+            white-space: nowrap;
+        }
+
+        /* ================= DECISION BADGES ================= */
+
+        .decision {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 8px;
+            font-weight: 800;
+            white-space: nowrap;
         }
 
         .allow {
             color: #15803d;
             background: #dcfce7;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 12px;
+            border: 1px solid #bbf7d0;
         }
 
         .denied {
             color: #b91c1c;
             background: #fee2e2;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 12px;
+            border: 1px solid #fecaca;
         }
+
+        /* ================= EMPTY STATE ================= */
 
         .empty {
             text-align: center;
-            padding: 40px;
-            color: #6b7280;
+            padding: 55px 20px;
+            color: #94a3b8;
         }
 
-        @media (max-width: 800px) {
-            .container {
-                padding: 20px;
+        .empty-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .empty h3 {
+            color: #475569;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .empty p {
+            font-size: 10px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 9px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 68px;
+                padding: 18px 8px;
             }
 
-            th,
-            td {
-                padding: 10px;
+            .logo {
+                justify-content: center;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .logo-text,
+            .nav-title,
+            .nav-item span:not(.nav-icon) {
+                display: none;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 11px;
+            }
+
+            .main {
+                margin-left: 68px;
+            }
+
+            .content {
+                padding: 25px 18px;
+            }
+
+            .audit-flow {
+                display: none;
             }
         }
+
+        @media (max-width: 600px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .breadcrumb {
+                display: none;
+            }
+
+            .security-badge {
+                display: none;
+            }
+
+            .heading h1 {
+                font-size: 23px;
+            }
+
+            .security-banner {
+                padding: 18px;
+            }
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-<div class="navbar">
 
-    <h2>🔐 Zero Trust Access System</h2>
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
 
-    <a href="/dashboard" class="back-btn">
-        ← Dashboard
-    </a>
+<aside class="sidebar">
 
-</div>
+    <div class="logo">
 
-<div class="container">
+        <div class="logo-icon">
+            🛡️
+        </div>
 
-    <div class="heading">
+        <div class="logo-text">
 
-        <h1>Access History</h1>
+            <h2>ZERO TRUST</h2>
 
-        <p>
-            Monitor previous resource access decisions.
-        </p>
+            <p>SECURITY SYSTEM</p>
+
+        </div>
 
     </div>
 
-    <div class="table-container">
 
-        <table>
+    <div class="nav-title">
+        Navigation
+    </div>
 
-            <thead>
-            <tr>
-                <th>User</th>
-                <th>Resource</th>
-                <th>Device</th>
-                <th>Decision</th>
-                <th>Reason</th>
-                <th>IP Address</th>
-                <th>Time</th>
-            </tr>
-            </thead>
 
-            <tbody>
+    <a href="/dashboard" class="nav-item">
+
+        <span class="nav-icon">⌂</span>
+
+        <span>Dashboard</span>
+
+    </a>
+
+
+    <a href="/resources" class="nav-item">
+
+        <span class="nav-icon">☁</span>
+
+        <span>Cloud Resources</span>
+
+    </a>
+
+
+    <a href="/access-history" class="nav-item active">
+
+        <span class="nav-icon">◷</span>
+
+        <span>Access History</span>
+
+    </a>
+
+
+    <div class="nav-title">
+        Security
+    </div>
+
+
+    <a href="/devices" class="nav-item">
+
+        <span class="nav-icon">▣</span>
+
+        <span>Devices</span>
+
+    </a>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <div class="breadcrumb">
+
+            Zero Trust System
+            &nbsp;/&nbsp;
+            <strong>Access Audit Logs</strong>
+
+        </div>
+
+
+        <div class="top-actions">
+
+            <span class="security-badge">
+                ● ZERO TRUST ACTIVE
+            </span>
+
+            <a href="/admin" class="back-btn">
+                ← Admin Dashboard
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <div class="content">
+
+
+        <!-- HEADING -->
+
+        <div class="heading">
+
+            <h1>
+                Access History
+            </h1>
+
+            <p>
+                Review and audit previous resource access decisions generated by the Zero Trust policy engine.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             SECURITY BANNER
+        ================================================== -->
+
+        <div class="security-banner">
+
+            <div class="banner-left">
+
+                <div class="banner-icon">
+                    📋
+                </div>
+
+                <div>
+
+                    <h3>
+                        Security Audit Trail
+                    </h3>
+
+                    <p>
+                        Every access request is recorded with identity, resource, device, decision and reason.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="audit-flow">
+
+                <span>IDENTITY</span>
+
+                <b>→</b>
+
+                <span>RESOURCE</span>
+
+                <b>→</b>
+
+                <span>DEVICE</span>
+
+                <b>→</b>
+
+                <span>DECISION</span>
+
+                <b>→</b>
+
+                <span>LOG</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- LOG HEADER -->
+
+        <div class="log-header">
+
+            <h2>
+                Security Access Logs
+            </h2>
+
+            <div class="audit-label">
+                🔎 AUDIT MONITORING
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             TABLE
+        ================================================== -->
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>User</th>
+
+                    <th>Resource</th>
+
+                    <th>Device</th>
+
+                    <th>Decision</th>
+
+                    <th>Reason</th>
+
+                    <th>IP Address</th>
+
+                    <th>Time</th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody>
+
 
                 <tr th:each="log : ${logs}">
 
-                    <td th:text="${log.user.name}">
+
+                    <!-- USER -->
+
+                    <td class="user-name"
+                        th:text="${log.user.name}">
+
                         User Name
+
                     </td>
-                
-                    <td th:text="${log.resource.name}">
+
+
+                    <!-- RESOURCE -->
+
+                    <td class="resource-name"
+                        th:text="${log.resource.name}">
+
                         Resource Name
+
                     </td>
-                
-                    <td th:text="${log.device != null ? log.device.deviceName : 'No Device'}">
+
+
+                    <!-- DEVICE -->
+
+                    <td class="device-name"
+                        th:text="${log.device != null ? log.device.deviceName : 'No Device'}">
+
                         Device Name
+
                     </td>
-                
+
+
+                    <!-- DECISION -->
+
                     <td>
-                        <span th:if="${log.decision == 'ALLOW'}"
-                              class="allow">
-                            ALLOWED
+
+
+                        <span
+                            th:if="${log.decision == 'ALLOW'}"
+                            class="decision allow">
+
+                            ✓ ALLOWED
+
                         </span>
-                
-                        <span th:if="${log.decision == 'DENIED'}"
-                              class="denied">
-                            DENIED
+
+
+                        <span
+                            th:if="${log.decision == 'DENIED'}"
+                            class="decision denied">
+
+                            ✕ DENIED
+
                         </span>
+
+
                     </td>
-                
-                    <td th:text="${log.reason}">
+
+
+                    <!-- REASON -->
+
+                    <td class="reason"
+                        th:text="${log.reason}">
+
                         Reason
+
                     </td>
-                
-                    <td th:text="${log.ipAddress}">
+
+
+                    <!-- IP -->
+
+                    <td class="ip"
+                        th:text="${log.ipAddress}">
+
                         IP Address
+
                     </td>
-                
-                    <td th:text="${#temporals.format(log.timestamp, 'dd-MM-yyyy HH:mm')}">
+
+
+                    <!-- TIME -->
+
+                    <td
+                        class="timestamp"
+                        th:text="${#temporals.format(log.timestamp, 'dd-MM-yyyy HH:mm')}">
+
                         Time
+
                     </td>
-                
+
+
                 </tr>
 
-            </tbody>
 
-        </table>
+                <!-- EMPTY STATE -->
+
+                <tr th:if="${#lists.isEmpty(logs)}">
+
+                    <td colspan="7">
+
+                        <div class="empty">
+
+                            <div class="empty-icon">
+                                📭
+                            </div>
+
+                            <h3>
+                                No Access Records
+                            </h3>
+
+                            <p>
+                                No access decisions have been recorded yet.
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="footer">
+
+            Identity-Based Cloud Resource Access System
+            &nbsp;•&nbsp;
+            Access decisions are recorded for security auditing
+
+        </div>
+
 
     </div>
 
-</div>
+</main>
+
 
 </body>
+
 </html>

@@ -1,48 +1,160 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Cloud Resources</title>
+    <title>Protected Cloud Resources</title>
 
     <style>
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
         }
 
         body {
-            background: #f4f7fb;
-            color: #1f2937;
+            background: #f1f5f9;
+            color: #0f172a;
         }
 
-        .navbar {
-            height: 65px;
-            background: #1e3a8a;
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 235px;
+            height: 100vh;
+            background: #08111f;
             color: white;
+            padding: 24px 15px;
+            z-index: 10;
+        }
+
+        .logo {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 35px;
+            gap: 11px;
+            padding: 0 10px 25px;
+            border-bottom: 1px solid #1e293b;
         }
 
-        .navbar h2 {
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: #2563eb;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 21px;
         }
 
-        .back-btn {
-            text-decoration: none;
-            color: white;
-            background: #374151;
-            padding: 9px 18px;
-            border-radius: 6px;
+        .logo h2 {
+            font-size: 15px;
         }
 
-        .container {
-            padding: 35px;
+        .logo p {
+            color: #64748b;
+            font-size: 9px;
+            margin-top: 3px;
+            letter-spacing: .5px;
+        }
+
+        .nav-title {
+            color: #64748b;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 24px 12px 9px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 12px;
+            margin-bottom: 4px;
+            border-radius: 7px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 12px;
+            transition: .2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #172554;
+            color: #dbeafe;
+        }
+
+        .nav-icon {
+            width: 19px;
+            text-align: center;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 235px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 68px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 35px;
+        }
+
+        .breadcrumb {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .breadcrumb strong {
+            color: #334155;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .security-badge {
+            padding: 7px 11px;
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #dcfce7;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .dashboard-btn {
+            text-decoration: none;
+            padding: 8px 13px;
+            border-radius: 6px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            font-size: 10px;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content {
+            max-width: 1450px;
+            padding: 32px 35px 45px;
         }
 
         .heading {
@@ -51,53 +163,193 @@
 
         .heading h1 {
             font-size: 28px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .heading p {
-            color: #6b7280;
+            color: #64748b;
+            font-size: 12px;
         }
+
+        /* ================= ZERO TRUST NOTICE ================= */
+
+        .notice {
+            background: linear-gradient(110deg, #0b1730, #102a56);
+            color: white;
+            border-radius: 12px;
+            padding: 21px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            box-shadow: 0 7px 20px rgba(15, 23, 42, .1);
+        }
+
+        .notice-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .notice-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 9px;
+            background: rgba(59, 130, 246, .17);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .notice h3 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .notice p {
+            color: #bfdbfe;
+            font-size: 10px;
+        }
+
+        .verification {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #cbd5e1;
+            font-size: 9px;
+        }
+
+        .verification span {
+            padding: 6px 8px;
+            background: rgba(255,255,255,.07);
+            border-radius: 5px;
+        }
+
+        .verification b {
+            color: #60a5fa;
+        }
+
+        /* ================= RESOURCE HEADER ================= */
+
+        .resource-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 17px;
+        }
+
+        .resource-header h2 {
+            font-size: 17px;
+        }
+
+        .resource-count {
+            font-size: 10px;
+            color: #64748b;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 7px 11px;
+            border-radius: 20px;
+        }
+
+        /* ================= RESOURCE GRID ================= */
 
         .resources {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 17px;
         }
 
         .resource-card {
             background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 21px;
+            position: relative;
+            transition: .25s;
+            overflow: hidden;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 24px rgba(15, 23, 42, .08);
+            border-color: #bfdbfe;
+        }
+
+        .resource-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: #2563eb;
+        }
+
+        .resource-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 18px;
         }
 
         .resource-icon {
-            font-size: 35px;
-            margin-bottom: 15px;
+            width: 47px;
+            height: 47px;
+            border-radius: 10px;
+            background: #eff6ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .protected {
+            font-size: 8px;
+            font-weight: 700;
+            color: #15803d;
+            background: #f0fdf4;
+            border: 1px solid #dcfce7;
+            padding: 5px 8px;
+            border-radius: 20px;
         }
 
         .resource-card h2 {
-            margin-bottom: 10px;
+            font-size: 15px;
+            margin-bottom: 7px;
+            color: #172033;
         }
 
-        .resource-card p {
-            color: #6b7280;
-            margin-bottom: 15px;
-            line-height: 1.5;
+        .description {
+            font-size: 11px;
+            line-height: 1.6;
+            color: #64748b;
+            min-height: 35px;
+            margin-bottom: 17px;
         }
+
+        /* ================= RESOURCE DETAILS ================= */
 
         .details {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 7px;
+            flex-wrap: wrap;
+            padding-top: 14px;
+            border-top: 1px solid #f1f5f9;
+            margin-bottom: 17px;
         }
 
         .badge {
-            padding: 5px 10px;
+            padding: 5px 8px;
             border-radius: 5px;
-            font-size: 12px;
-            font-weight: bold;
-            background: #e5e7eb;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: .3px;
+        }
+
+        .type {
+            background: #f1f5f9;
+            color: #475569;
         }
 
         .high {
@@ -110,154 +362,548 @@
             color: #92400e;
         }
 
+        .critical {
+            background: #fce7f3;
+            color: #9d174d;
+        }
+
         .active {
             background: #dcfce7;
             color: #15803d;
         }
 
+        /* ================= REQUEST BUTTON ================= */
+
         .request-btn {
             width: 100%;
-            padding: 11px;
+            padding: 10px;
             border: none;
-            border-radius: 6px;
+            border-radius: 7px;
             background: #2563eb;
             color: white;
-            font-size: 15px;
-            font-weight: bold;
+            font-size: 11px;
+            font-weight: 700;
             cursor: pointer;
+            transition: .2s;
         }
 
         .request-btn:hover {
             background: #1d4ed8;
         }
 
+        .request-btn:active {
+            transform: scale(.98);
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 9px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+
+            .resources {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .verification {
+                display: none;
+            }
+
+        }
+
         @media (max-width: 800px) {
+
+            .sidebar {
+                width: 68px;
+                padding: 18px 8px;
+            }
+
+            .logo {
+                justify-content: center;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .logo-text,
+            .nav-title,
+            .nav-item span:not(.nav-icon) {
+                display: none;
+            }
+
+            .nav-item {
+                justify-content: center;
+                padding: 11px;
+            }
+
+            .main {
+                margin-left: 68px;
+            }
+
+            .content {
+                padding: 25px 18px;
+            }
+
             .resources {
                 grid-template-columns: 1fr;
             }
+
+            .notice {
+                padding: 18px;
+            }
+
         }
+
+        @media (max-width: 500px) {
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .breadcrumb {
+                display: none;
+            }
+
+            .security-badge {
+                display: none;
+            }
+
+            .heading h1 {
+                font-size: 23px;
+            }
+
+            .resource-card {
+                padding: 18px;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-<div class="navbar">
 
-    <h2>🔐 Zero Trust Access System</h2>
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
 
-    <a href="/dashboard" class="back-btn">
-        ← Dashboard
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            🛡️
+        </div>
+
+        <div class="logo-text">
+
+            <h2>ZERO TRUST</h2>
+
+            <p>SECURITY SYSTEM</p>
+
+        </div>
+
+    </div>
+
+
+    <div class="nav-title">
+        Navigation
+    </div>
+
+
+    <a href="/dashboard" class="nav-item">
+
+        <span class="nav-icon">⌂</span>
+
+        <span>Dashboard</span>
+
     </a>
 
-</div>
 
-<div class="container">
+    <a href="/resources" class="nav-item active">
 
-    <div class="heading">
-        <h1>Cloud Resources</h1>
-        <p>
-            Access to every resource is verified using Zero Trust policies.
-        </p>
+        <span class="nav-icon">☁</span>
+
+        <span>Cloud Resources</span>
+
+    </a>
+
+
+    <a href="/access-history" class="nav-item">
+
+        <span class="nav-icon">◷</span>
+
+        <span>Access History</span>
+
+    </a>
+
+
+    <div class="nav-title">
+        Security
     </div>
 
-    <div class="resources">
 
-        <div class="resource-card" th:each="resource : ${resources}">
-    
-            <div class="resource-icon">
-    
-                <span th:if="${resource.resourceType == 'DASHBOARD'}">📊</span>
-                <span th:if="${resource.resourceType == 'DOCUMENT'}">📄</span>
-                <span th:if="${resource.resourceType == 'DATABASE'}">👥</span>
-                <span th:if="${resource.resourceType == 'LOGS'}">🛡️</span>
-                <span th:if="${resource.resourceType == 'CONFIGURATION'}">⚙️</span>
-    
-            </div>
-    
-            <h2 th:text="${resource.name}">
-                Resource Name
-            </h2>
-    
-            <p th:text="${resource.description}">
-                Resource description
-            </p>
-    
-            <div class="details">
-    
-                <span class="badge"
-                      th:classappend="${resource.sensitivity == 'HIGH' or resource.sensitivity == 'CRITICAL'} ? ' high' : ' medium'"
-                      th:text="${resource.sensitivity}">
-                    MEDIUM
-                </span>
-    
-                <span class="badge active"
-                      th:text="${resource.status}">
-                    ACTIVE
-                </span>
-    
-            </div>
-    
-            <button class="request-btn"
-        type="button"
-        th:attr="data-resource-id=${resource.id},data-resource-name=${resource.name}"
-        onclick="requestAccess(this)">
-    Request Access
-</button>
-    
+    <a href="/devices" class="nav-item">
+
+        <span class="nav-icon">▣</span>
+
+        <span>Devices</span>
+
+    </a>
+
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <div class="breadcrumb">
+
+            Zero Trust System
+            &nbsp;/&nbsp;
+            <strong>Protected Resources</strong>
+
         </div>
-    
+
+
+        <div class="top-actions">
+
+            <span class="security-badge">
+                ● ZERO TRUST ACTIVE
+            </span>
+
+            <a href="/dashboard" class="dashboard-btn">
+                ← Dashboard
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =================================================
+         CONTENT
+    ================================================== -->
+
+    <div class="content">
+
+
+        <!-- HEADING -->
+
+        <div class="heading">
+
+            <h1>
+                Protected Cloud Resources
+            </h1>
+
+            <p>
+                Access to every resource is continuously evaluated using identity, role, device and resource policies.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             ZERO TRUST NOTICE
+        ================================================== -->
+
+        <div class="notice">
+
+            <div class="notice-left">
+
+                <div class="notice-icon">
+                    🔐
+                </div>
+
+                <div>
+
+                    <h3>
+                        Zero Trust Resource Protection
+                    </h3>
+
+                    <p>
+                        Access is never automatically trusted. Every request must satisfy the configured security policy.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="verification">
+
+                <span>IDENTITY</span>
+
+                <b>→</b>
+
+                <span>ROLE</span>
+
+                <b>→</b>
+
+                <span>DEVICE</span>
+
+                <b>→</b>
+
+                <span>POLICY</span>
+
+                <b>→</b>
+
+                <span>DECISION</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESOURCE HEADING -->
+
+        <div class="resource-header">
+
+            <h2>
+                Available Resources
+            </h2>
+
+            <div class="resource-count">
+
+                🔒 Protected Resources
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             RESOURCE CARDS
+        ================================================== -->
+
+        <div class="resources">
+
+
+            <div class="resource-card"
+                 th:each="resource : ${resources}">
+
+
+                <!-- TOP -->
+
+                <div class="resource-top">
+
+                    <div class="resource-icon">
+
+                        <span th:if="${resource.resourceType == 'DASHBOARD'}">
+                            📊
+                        </span>
+
+                        <span th:if="${resource.resourceType == 'DOCUMENT'}">
+                            📄
+                        </span>
+
+                        <span th:if="${resource.resourceType == 'DATABASE'}">
+                            👥
+                        </span>
+
+                        <span th:if="${resource.resourceType == 'LOGS'}">
+                            🛡️
+                        </span>
+
+                        <span th:if="${resource.resourceType == 'CONFIGURATION'}">
+                            ⚙️
+                        </span>
+
+                    </div>
+
+
+                    <span class="protected">
+                        🔒 PROTECTED
+                    </span>
+
+                </div>
+
+
+                <!-- NAME -->
+
+                <h2 th:text="${resource.name}">
+                    Resource Name
+                </h2>
+
+
+                <!-- DESCRIPTION -->
+
+                <p class="description"
+                   th:text="${resource.description}">
+                    Resource description
+                </p>
+
+
+                <!-- DETAILS -->
+
+                <div class="details">
+
+
+                    <span class="badge type"
+                          th:text="${resource.resourceType}">
+                        RESOURCE
+                    </span>
+
+
+                    <span class="badge"
+                          th:classappend="${resource.sensitivity == 'CRITICAL'} ? ' critical' : (${resource.sensitivity == 'HIGH'} ? ' high' : ' medium')"
+                          th:text="${resource.sensitivity}">
+                        MEDIUM
+                    </span>
+
+
+                    <span class="badge active"
+                          th:text="${resource.status}">
+                        ACTIVE
+                    </span>
+
+
+                </div>
+
+
+                <!-- REQUEST ACCESS -->
+
+                <button
+                    class="request-btn"
+                    type="button"
+                    th:attr="data-resource-id=${resource.id},data-resource-name=${resource.name}"
+                    onclick="requestAccess(this)">
+
+                    Request Access →
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            Identity-Based Cloud Resource Access System
+            &nbsp;•&nbsp;
+            Every request is verified before access
+
+        </div>
+
+
     </div>
 
-</div>
+</main>
+
+
+<!-- =====================================================
+     ACCESS CONTROL JAVASCRIPT
+===================================================== -->
 
 <script>
 
     function requestAccess(button) {
 
         const resourceId = button.dataset.resourceId;
+
         const resourceName = button.dataset.resourceName;
 
+
         fetch("/api/access/check?resourceId=" + resourceId)
+
             .then(response => response.text())
+
             .then(result => {
+
 
                 if (result.startsWith("ALLOW")) {
 
+
                     alert(
+
                         "Access Granted!\n\n" +
-                        "Resource: " + resourceName +
+
+                        "Resource: " +
+                        resourceName +
+
                         "\n\n" +
+
                         result
+
                     );
 
+
                     // Open the actual resource
+
                     if (resourceId == "1") {
-                        window.location.href = "/sales-dashboard";
+
+                        window.location.href =
+                            "/sales-dashboard";
+
                     }
+
 
                 } else {
 
+
                     alert(
+
                         "Access Denied!\n\n" +
-                        "Resource: " + resourceName +
+
+                        "Resource: " +
+                        resourceName +
+
                         "\n\n" +
+
                         result
+
                     );
+
                 }
 
+
             })
+
+
             .catch(error => {
 
+
                 alert(
+
                     "Error while checking access.\n\n" +
+
                     "Please try again."
+
                 );
 
+
                 console.error(error);
+
             });
+
     }
 
 </script>
 
+
 </body>
+
 </html>

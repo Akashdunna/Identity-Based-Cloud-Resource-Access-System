@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Zero Trust Access System</title>
+    <title>Zero Trust Access | Secure Login</title>
 
     <style>
 
@@ -13,88 +13,428 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: "Segoe UI", Arial, sans-serif;
         }
 
         body {
             min-height: 100vh;
+            background: #f5f8fc;
             display: flex;
-            justify-content: center;
             align-items: center;
-            background: #f4f7fb;
+            justify-content: center;
+            color: #172b4d;
         }
 
-        .login-container {
-            width: 400px;
+        .page {
+            width: 92%;
+            max-width: 1180px;
+            min-height: 680px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(15, 40, 80, 0.15);
         }
 
-        .logo {
-            text-align: center;
-            font-size: 42px;
-            margin-bottom: 10px;
+        /* ================= LEFT PANEL ================= */
+
+        .left-panel {
+            position: relative;
+            padding: 55px 60px;
+            background: linear-gradient(145deg, #071d49, #0b3b82);
+            color: white;
+            overflow: hidden;
         }
 
-        h1 {
+        .left-panel::before {
+            content: "";
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 50%;
+            right: -160px;
+            bottom: -120px;
+        }
+
+        .left-panel::after {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 50%;
+            left: -150px;
+            top: -100px;
+        }
+
+        .brand {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+        }
+
+        .brand-text h2 {
+            font-size: 20px;
+            line-height: 1.25;
+            letter-spacing: 0.2px;
+        }
+
+        .brand-text p {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #b9d3f7;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero {
+            position: relative;
+            z-index: 2;
+            margin-top: 90px;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            color: #55b7ff;
+        }
+
+        .hero p {
+            max-width: 470px;
+            color: #c8daf4;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* Security flow */
+
+        .security-flow {
+            position: relative;
+            z-index: 2;
+            margin-top: 55px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .security-item {
+            width: 105px;
+            height: 92px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            color: #1f2937;
+        }
+
+        .security-item .icon {
+            font-size: 24px;
             margin-bottom: 8px;
         }
 
-        .subtitle {
+        .security-item span {
+            font-size: 12px;
+            color: #d9e8fb;
+        }
+
+        .flow-arrow {
+            color: #55b7ff;
+            font-size: 18px;
+        }
+
+        .principle {
+            position: absolute;
+            z-index: 2;
+            bottom: 38px;
+            left: 60px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #d9e8fb;
+            font-size: 13px;
+            letter-spacing: 0.4px;
+        }
+
+        /* ================= RIGHT PANEL ================= */
+
+        .right-panel {
+            padding: 55px 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 410px;
+        }
+
+        .login-header {
             text-align: center;
-            color: #6b7280;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
+        }
+
+        .login-icon {
+            width: 62px;
+            height: 62px;
+            margin: 0 auto 18px;
+            border-radius: 18px;
+            background: #edf5ff;
+            border: 1px solid #d7e8ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .login-header h2 {
+            font-size: 30px;
+            color: #12284b;
+            margin-bottom: 8px;
+        }
+
+        .login-header p {
+            color: #71809a;
+            font-size: 14px;
+        }
+
+        /* Messages */
+
+        .message {
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .error-message {
+            color: #b42318;
+            background: #fff1f0;
+            border: 1px solid #ffd5d2;
+        }
+
+        .success-message {
+            color: #18794e;
+            background: #edfcf2;
+            border: 1px solid #c8efd8;
+        }
+
+        /* Form */
+
+        .form-group {
+            margin-bottom: 22px;
         }
 
         label {
             display: block;
-            margin-bottom: 7px;
-            color: #374151;
-            font-weight: bold;
+            margin-bottom: 9px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #263b5c;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 17px;
+            color: #8a9ab2;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #d1d5db;
-            border-radius: 7px;
-            font-size: 15px;
+            height: 52px;
+            padding: 0 15px 0 45px;
+            border: 1px solid #d7deea;
+            border-radius: 11px;
+            background: #fbfcfe;
+            color: #172b4d;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        input::placeholder {
+            color: #9aa7ba;
         }
 
         input:focus {
             outline: none;
-            border-color: #2563eb;
+            border-color: #2675ed;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(38,117,237,0.09);
         }
 
-        button {
+        .login-button {
             width: 100%;
-            padding: 13px;
+            height: 53px;
             border: none;
-            border-radius: 7px;
-            background: #2563eb;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #2167df, #3183f4);
             color: white;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
+            transition: 0.2s ease;
+            box-shadow: 0 8px 20px rgba(33,103,223,0.22);
         }
 
-        button:hover {
-            background: #1d4ed8;
+        .login-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 24px rgba(33,103,223,0.28);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        /* Security note */
+
+        .secure-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 28px 0 18px;
+            color: #9aa7ba;
+            font-size: 12px;
+        }
+
+        .secure-divider::before,
+        .secure-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e3e8f0;
         }
 
         .security-note {
-            margin-top: 25px;
-            padding: 12px;
-            background: #f0f9ff;
-            border-radius: 7px;
+            padding: 15px 16px;
+            border-radius: 12px;
+            background: #f1f8ff;
+            border: 1px solid #d9ebff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #28649f;
+            font-size: 12.5px;
+            line-height: 1.5;
+        }
+
+        .security-note-icon {
+            font-size: 20px;
+        }
+
+        .footer-text {
+            margin-top: 22px;
             text-align: center;
-            color: #0369a1;
-            font-size: 13px;
+            color: #9aa7ba;
+            font-size: 11px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 850px) {
+
+            body {
+                padding: 20px 0;
+            }
+
+            .page {
+                grid-template-columns: 1fr;
+                max-width: 520px;
+                min-height: auto;
+            }
+
+            .left-panel {
+                padding: 40px;
+                min-height: 430px;
+            }
+
+            .hero {
+                margin-top: 55px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .security-flow {
+                margin-top: 35px;
+            }
+
+            .principle {
+                position: relative;
+                left: auto;
+                bottom: auto;
+                margin-top: 35px;
+            }
+
+            .right-panel {
+                padding: 45px 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .page {
+                width: 94%;
+                border-radius: 18px;
+            }
+
+            .left-panel {
+                padding: 32px 25px;
+            }
+
+            .hero h1 {
+                font-size: 31px;
+            }
+
+            .security-flow {
+                gap: 5px;
+            }
+
+            .security-item {
+                width: 88px;
+                height: 82px;
+            }
+
+            .flow-arrow {
+                font-size: 13px;
+            }
+
+            .right-panel {
+                padding: 40px 25px;
+            }
         }
 
     </style>
@@ -103,71 +443,195 @@
 
 <body>
 
-<div class="login-container">
+<div class="page">
 
-    <div class="logo">🔐</div>
+    <!-- ================= LEFT SIDE ================= -->
 
-    <h1>Zero Trust Access</h1>
+    <section class="left-panel">
 
-    <p class="subtitle">
-        Identity-Based Cloud Resource Access
-    </p>
+        <div class="brand">
 
-    <form method="post" action="/login">
+            <div class="brand-icon">
+                🛡️
+            </div>
+
+            <div class="brand-text">
+                <h2>Identity-Based<br>Cloud Resource Access</h2>
+                <p>Zero Trust Security</p>
+            </div>
+
+        </div>
+
+        <div class="hero">
+
+            <h1>
+                Zero Trust<br>
+                <span>Access Control</span>
+            </h1>
+
+            <p>
+                Secure access to cloud resources through continuous
+                verification of user identity, role, device security,
+                and resource access policies.
+            </p>
+
+        </div>
+
+        <div class="security-flow">
+
+            <div class="security-item">
+                <div class="icon">👤</div>
+                <span>Identity<br>& Role</span>
+            </div>
+
+            <div class="flow-arrow">→</div>
+
+            <div class="security-item">
+                <div class="icon">💻</div>
+                <span>Device<br>Security</span>
+            </div>
+
+            <div class="flow-arrow">→</div>
+
+            <div class="security-item">
+                <div class="icon">📋</div>
+                <span>Access<br>Policy</span>
+            </div>
+
+        </div>
+
+        <div class="principle">
+            🛡️ <span>Never trust, always verify.</span>
+        </div>
+
+    </section>
 
 
+    <!-- ================= RIGHT SIDE ================= -->
+
+    <section class="right-panel">
+
+        <div class="login-box">
+
+            <div class="login-header">
+
+                <div class="login-icon">
+                    🔐
+                </div>
+
+                <h2>Welcome Back</h2>
+
+                <p>Sign in securely to continue</p>
+
+            </div>
+
+
+            <!-- Spring Security error -->
 
             <div th:if="${param.error}"
-                 style="color: #dc2626;
-                        background: #fee2e2;
-                        padding: 10px;
-                        border-radius: 6px;
-                        margin-bottom: 15px;
-                        text-align: center;">
+                 class="message error-message">
                 ❌ Invalid email or password.
             </div>
-        
+
+
+            <!-- Logout message -->
+
             <div th:if="${param.logout}"
-                 style="color: #15803d;
-                        background: #dcfce7;
-                        padding: 10px;
-                        border-radius: 6px;
-                        margin-bottom: 15px;
-                        text-align: center;">
+                 class="message success-message">
                 ✅ You have been logged out successfully.
             </div>
-        
 
 
-        <label for="username">Email</label>
+            <!-- LOGIN FORM -->
 
-        <input
-                type="email"
-                id="username"
-                name="username"
-                placeholder="Enter your email"
-                required
-        >
+            <form method="post" action="/login">
 
-        <label for="password">Password</label>
+                <div class="form-group">
 
-        <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                required
-        >
+                    <label for="username">
+                        Email Address
+                    </label>
 
-        <button type="submit">
-            Login
-        </button>
+                    <div class="input-wrapper">
 
-    </form>
+                        <span class="input-icon">✉</span>
 
-    <div class="security-note">
-        🛡️ Access is verified based on identity, role and device security.
-    </div>
+                        <input
+                                type="email"
+                                id="username"
+                                name="username"
+                                placeholder="Enter your email"
+                                autocomplete="email"
+                                required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">🔒</span>
+
+                        <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                        type="submit"
+                        class="login-button">
+
+                    Login securely →
+
+                </button>
+
+            </form>
+
+
+            <div class="secure-divider">
+                Secure Access
+            </div>
+
+
+            <div class="security-note">
+
+                <div class="security-note-icon">
+                    🛡️
+                </div>
+
+                <div>
+                    <strong>Zero Trust Verification</strong><br>
+                    Access is evaluated using identity, role,
+                    device security, and resource policies.
+                </div>
+
+            </div>
+
+
+            <div class="footer-text">
+                Identity-Based Cloud Resource Access System
+            </div>
+
+        </div>
+
+    </section>
 
 </div>
 
